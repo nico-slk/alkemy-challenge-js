@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const userModel = require('./model/userModel');
 
-const sequelize = new Sequelize(`alkemychallenge`, 'root', 'root', {
+const sequelize = new Sequelize(`alkemyjs`, 'root', 'root', {
     host: 'localhost',
     dialect: 'mysql'
 });
