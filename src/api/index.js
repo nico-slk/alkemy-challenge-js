@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors')
 const app = express();
 const { User } = require('./db')
-require('./db');
 const { check, validationResult } = require('express-validator');
 
 app.use(cors())
@@ -12,6 +11,10 @@ app.set('port', process.env.port || 3001)
 app.get('/', (req, res) => {
     res.send('Connected.')
 })
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
 
 app.post('/', [
     check('name', 'Cannot be empty').not().isEmpty(),
@@ -34,7 +37,7 @@ app.post('/', [
 })
 
 app.post('/try', (req, res) => {
-    res.send('CARAJO')
+    console.log(req)
 })
 
 app.listen(app.get('port'), () => {
