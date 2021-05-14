@@ -22,13 +22,11 @@ app.post('/', [
     check('email', 'Most to add a email valid.').not().isEmail()
 ], async (req, res) => {
     try {
-        console.log(req.body)
         const err = validationResult(req);
         if (err.isEmpty()) {
             return res.status(444).json({ errors: err.array() })
         }
         // req.body.password = await bcryptjs.hashSync(req.body.password, 10);
-        console.log(req.body)
         const createUser = await User.create(req.body);
         res.send(createUser);
     } catch (error) {
@@ -39,7 +37,15 @@ app.post('/', [
 app.get('/all', async (req, res) => {
     try {
         const users = await User.findAll()
-        console.log(users)
+        res.json(users)
+    } catch (error) {
+        res.send({ response: `Error catch: ${error}` })
+    }
+})
+
+app.delete('/:id', async (req, res) => {
+    try {
+        const users = await User.destroy({ where: { id: req.params.id } })
         res.json(users)
     } catch (error) {
         res.send({ response: `Error catch: ${error}` })

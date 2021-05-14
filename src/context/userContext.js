@@ -21,9 +21,16 @@ const UserState = (props) => {
         dispatch({ type: 'GET_ALL_USERS', payload: response.data })
     }
 
+    const createUser = async (user) => {
+        const response = axios.post('http://localhost:3001/', user)
+        console.log(response)
+        // dispatch({ type: 'CREATE_USER', payload: response.data })
+    }
+
     const deleteUser = async (id) => {
-        const response = await axios.delete('http://localhost:3001/:id')
-        // dispatch({ type: 'DELETE_USER', payload: response.data })
+        const response = await axios.delete('http://localhost:3001/' + id)
+        console.log(response)
+        dispatch({ type: 'DELETE_USER', payload: response.data.id })
     }
 
     const editUser = async (id) => {
@@ -35,6 +42,7 @@ const UserState = (props) => {
         <UserContext.Provider value={{
             user: state.user,
             users: state.users,
+            createUser,
             getAllUsers,
             getUser,
             deleteUser,

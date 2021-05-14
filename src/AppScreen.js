@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import UserContext from './context/context'
 
-export default function AppScreen() {
+export default function AppScreen(props) {
     const userContext = useContext(UserContext)
     const [state, setState] = useState({
         email: '',
@@ -15,19 +15,10 @@ export default function AppScreen() {
         userContext.getAllUsers()
     }, [])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(state)
-        return fetch('http://localhost:3001/', {
-            method: 'POST',
-            body: JSON.stringify(state),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(res => res.json())
-            .catch(() => setErrorState(true))
+        await userContext.createUser(state)
+        await userContext.getAllUsers()
     }
 
     const handleChange = (e) => {
@@ -35,7 +26,11 @@ export default function AppScreen() {
             ...state,
             [e.target.name]: e.target.value
         })
-        console.log(e.target.value);
+    }
+
+    const handleDelete = async (id) => {
+        await userContext.deleteUser(id)
+        await userContext.getAllUsers()
     }
 
     return (
@@ -48,6 +43,9 @@ export default function AppScreen() {
                 <input placeholder="password" name="password" value={`${state.password}`} onChange={handleChange} />
                 <button type="submit" >Click</button>
             </form>
+            <ul>
+                {userContext.users?.map(e => <li key={e.id}>{e.name} <button onClick={() => handleDelete(e.id)}>Delete</button></li>)}
+            </ul>
         </div>
     )
 }
