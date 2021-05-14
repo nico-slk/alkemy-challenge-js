@@ -11,6 +11,10 @@ export default function AppScreen() {
     });
     const [errorState, setErrorState] = useState(false);
 
+    useEffect(() => {
+        userContext.getAllUsers()
+    }, [])
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(state)

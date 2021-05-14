@@ -36,8 +36,14 @@ app.post('/', [
     }
 })
 
-app.post('/try', (req, res) => {
-    console.log(req)
+app.get('/all', async (req, res) => {
+    try {
+        const users = await User.findAll()
+        console.log(users)
+        res.json(users)
+    } catch (error) {
+        res.send({ response: `Error catch: ${error}` })
+    }
 })
 
 app.listen(app.get('port'), () => {
