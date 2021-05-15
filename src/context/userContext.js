@@ -6,14 +6,15 @@ import axios from 'axios'
 const UserState = (props) => {
     const userInitialState = {
         user: {},
-        users: []
+        users: [],
+        isLogued: false
     }
 
     const [state, dispatch] = useReducer(UserReducer, userInitialState)
 
     const getUser = async (id) => {
         const response = await axios.get('http://localhost:3001/:id')
-        // dispatch({ type: 'GET_USER', payload: response.data })
+        dispatch({ type: 'GET_USER', payload: response.data })
     }
     const getAllUsers = async () => {
         const response = await axios.get('http://localhost:3001/all')
@@ -24,7 +25,6 @@ const UserState = (props) => {
     const createUser = async (user) => {
         const response = axios.post('http://localhost:3001/', user)
         console.log(response)
-        // dispatch({ type: 'CREATE_USER', payload: response.data })
     }
 
     const deleteUser = async (id) => {
@@ -42,6 +42,7 @@ const UserState = (props) => {
         <UserContext.Provider value={{
             user: state.user,
             users: state.users,
+            isLogued: state.isLogued,
             createUser,
             getAllUsers,
             getUser,

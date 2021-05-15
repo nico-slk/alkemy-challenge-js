@@ -17,8 +17,14 @@ export default function AppScreen(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await userContext.createUser(state)
-        await userContext.getAllUsers()
+        try {
+            await userContext.createUser(state)
+            await userContext.getAllUsers()
+            setErrorState(false)
+        } catch (error) {
+            setErrorState(true)
+            console.error(new Error(error));
+        }
     }
 
     const handleChange = (e) => {
@@ -26,11 +32,6 @@ export default function AppScreen(props) {
             ...state,
             [e.target.name]: e.target.value
         })
-    }
-
-    const handleDelete = async (id) => {
-        await userContext.deleteUser(id)
-        await userContext.getAllUsers()
     }
 
     return (
@@ -44,7 +45,7 @@ export default function AppScreen(props) {
                 <button type="submit" >Click</button>
             </form>
             <ul>
-                {userContext.users?.map(e => <li key={e.id}>{e.name} <button onClick={() => handleDelete(e.id)}>Delete</button></li>)}
+                {userContext.users?.map(e => <li key={e.id}>{e.name}</li>)}
             </ul>
         </div>
     )

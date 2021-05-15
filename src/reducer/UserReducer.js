@@ -1,4 +1,4 @@
-import { GET_ALL_USERS, GET_USER, DELETE_USER, EDIT_USER, CREATE_USER } from '../constans/const'
+import { GET_ALL_USERS, GET_USER, EDIT_USER } from '../constans/const'
 
 const initialState = {};
 
@@ -6,11 +6,6 @@ const initialState = {};
 export default function (state = initialState, action) {
     const { payload, type } = action;
     switch (type) {
-        case CREATE_USER:
-            return {
-                ...state,
-                users: payload
-            }
         case GET_ALL_USERS:
             return {
                 ...state,
@@ -20,11 +15,6 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 user: payload
-            }
-        case DELETE_USER:
-            return {
-                ...state,
-                users: state.users.filter((c) => c.id !== action.payload),
             }
         case EDIT_USER:
             return {
