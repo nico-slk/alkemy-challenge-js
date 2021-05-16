@@ -1,23 +1,29 @@
-import { GET_ALL_USERS, GET_USER, EDIT_USER } from '../constans/const'
+import { GET_OP, GET_OP_BY_USER, EDIT_OP } from '../constans/const'
 
-const initialState = {};
+const initialState = {
+    op: {},
+    ops: []
+};
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = initialState, action) {
     const { payload, type } = action;
     switch (type) {
-        case GET_ALL_USERS:
+        case GET_OP_BY_USER:
             return {
                 ...state,
-                users: payload
+                ops: payload
             }
-        case GET_USER:
+        case GET_OP:
             return {
                 ...state,
-                user: payload
+                op: payload
             }
-        case EDIT_USER:
-            return state = payload
+        case EDIT_OP:
+            return {
+                ...state,
+                op: payload
+            }
         default:
             return state;
     }

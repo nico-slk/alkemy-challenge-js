@@ -24,5 +24,6 @@ sequelize.sync({ force: false })
 
 module.exports = {
     User,
-    Transaction
+    Transaction,
+    conn: sequelize
 }

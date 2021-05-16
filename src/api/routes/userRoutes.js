@@ -9,7 +9,7 @@ app.post('/', [
     check('email', 'Most to add a email valid.').not().isEmail()
 ], createUser)
     .get('/all', getAllUsers)
-    .get('/', getUser)
+    .post('/login', getUser)
     .delete('/:id', deleteUser)
     .put('/:id', editUser)
 

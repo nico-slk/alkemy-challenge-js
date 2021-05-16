@@ -1,17 +1,27 @@
 const bcryptjs = require('bcryptjs')
 const { validationResult } = require('express-validator');
 const { Op } = require('sequelize');
-const { User } = require('../db')
+const { User, Transaction } = require('../db')
 
 const Service = {
 
     getUser: async (req, res) => {
-        req.body.password = await bcryptjs.hashSync(req.body.password, 10);
+        // req.body.password = await bcryptjs.hashSync(req.body.password, 10);
         try {
-            const user = User.findOne({ [Op.or]: [{ email: req.body.email }, { password: req.body.password }] })
+            const user = await User.findOne({
+                where: {
+                    email: req.body.email
+                },
+                include: {
+                    model: Transaction
+                }
+            })
+            console.log(user.password + ' user.password')
+            console.log('SADASDASD')
+            console.log(req.body.password + ' req.body.password')
             user.password !== req.body.password
                 ? console.error(`Error: password don't match`)
-                : user.json()
+                : res.json(user)
         } catch (error) {
             res.send({ response: `Error catch: ${error}` })
         }
@@ -33,7 +43,7 @@ const Service = {
 
     getAllUsers: async (req, res) => {
         try {
-            const users = await User.findAll()
+            const users = await User.findAll({ attributes: { exclude: ['password'] } })
             res.json(users)
         } catch (error) {
             res.send({ response: `Error catch: ${error}` })

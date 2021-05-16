@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
-import UserContext from './context/context'
+import { UserContext, OperationsContext } from './context/context'
 
 export default function AppScreen(props) {
     const userContext = useContext(UserContext)
+    const operationContext = useContext(OperationsContext)
     const [state, setState] = useState({
         email: '',
         name: '',
@@ -13,6 +14,8 @@ export default function AppScreen(props) {
 
     useEffect(() => {
         userContext.getAllUsers()
+        console.log(userContext)
+        console.log(operationContext)
     }, [])
 
     const handleSubmit = async (e) => {

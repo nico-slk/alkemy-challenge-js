@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import UserReducer from '../reducer/UserReducer'
-import UserContext from './context'
+import { UserContext } from './context'
 import axios from 'axios'
 
 const UserState = (props) => {
@@ -8,34 +8,38 @@ const UserState = (props) => {
         user: {},
         users: [],
         isLogued: false
+
     }
 
     const [state, dispatch] = useReducer(UserReducer, userInitialState)
 
+
     const getUser = async (id) => {
-        const response = await axios.get('http://localhost:3001/:id')
+        const response = await axios.get('http://localhost:3001/user/' + id)
+        console.log(response)
         dispatch({ type: 'GET_USER', payload: response.data })
     }
     const getAllUsers = async () => {
-        const response = await axios.get('http://localhost:3001/all')
+        const response = await axios.get('http://localhost:3001/user/all')
         console.log(response)
         dispatch({ type: 'GET_ALL_USERS', payload: response.data })
     }
 
     const createUser = async (user) => {
-        const response = axios.post('http://localhost:3001/', user)
+        const response = axios.post('http://localhost:3001/user/', user)
         console.log(response)
     }
 
     const deleteUser = async (id) => {
-        const response = await axios.delete('http://localhost:3001/' + id)
+        const response = await axios.delete('http://localhost:3001/user/' + id)
         console.log(response)
         dispatch({ type: 'DELETE_USER', payload: response.data.id })
     }
 
     const editUser = async (id) => {
-        const response = await axios.put('http://localhost:3001/:id')
-        // dispatch({ type: 'EDIT_USER', payload: response.data })
+        const response = await axios.put('http://localhost:3001/user/' + id)
+        console.log(response)
+        dispatch({ type: 'EDIT_USER', payload: response.data })
     }
 
     return (
@@ -47,7 +51,7 @@ const UserState = (props) => {
             getAllUsers,
             getUser,
             deleteUser,
-            editUser,
+            editUser
         }}>
             {props.children}
         </UserContext.Provider>

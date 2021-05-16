@@ -1,8 +1,12 @@
 import { createContext } from "react";
 
-const UserContext = createContext({
+export const UserContext = createContext({
     name: 'Guest',
     lastname: String(Math.floor(Math.random() * 100000))
 });
 
-export default UserContext;
+export const OperationsContext = createContext({
+    reason: 'No reason',
+    amount: 0.0,
+    type: 'None'
+});
